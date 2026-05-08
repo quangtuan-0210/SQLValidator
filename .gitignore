@@ -1,0 +1,17 @@
+# Bỏ qua môi trường ảo (Cực kỳ nặng)
+.venv/
+venv/
+ENV/
+
+# Bỏ qua các file biên dịch của Python (Rác hệ thống)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# BẢO MẬT: TUYỆT ĐỐI BỎ QUA FILE BIẾN MÔI TRƯỜNG CÓ CHỨA API KEY
+.env
+
+# Bỏ qua rác của hệ điều hành (nếu dùng Mac/Windows)
+.DS_Store
+Thumbs.db
