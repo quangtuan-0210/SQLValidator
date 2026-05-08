@@ -137,3 +137,90 @@ class SQLValidator:
         for join in ast.find_all(exp.Join):
             if not join.args.get("on") and not join.args.get("using"):
                 raise ValueError("Join Validation: Bắt buộc phải có mệnh đề 'ON' hoặc 'USING' khi JOIN.")
+
+
+
+#gom hết vào thành 1 block rồi sửa 1 lần
+'''
+def validate(self, sql_text, dialect: str = "mysql"):
+        try:
+            ast = sqlglot.parse_one(sql_text, read=dialect)
+            
+            # Tạo một cái "giỏ" để gom tất cả các lỗi lại
+            all_errors = []
+            
+            # Thu thập lỗi từ mọi mặt trận thay vì dừng lại giữa chừng
+            all_errors.extend(self._validate_rules(ast))
+            all_errors.extend(self._validate_columns(ast))
+            all_errors.extend(self._validate_joins(ast))
+            
+            # Nếu giỏ có chứa lỗi, gộp chúng lại thành 1 chuỗi dài và báo False
+            if all_errors:
+                # Mỗi lỗi nằm trên 1 dòng để AI dễ đọc
+                return False, "\n- ".join(["Có nhiều lỗi cần sửa cùng lúc:"] + all_errors)
+                
+            return True, ast.sql(dialect=dialect)
+        except (ParseError, OptimizeError) as e:
+            return False, f"Lỗi cú pháp SQL: {str(e)}"
+        except ValueError as e:
+            # Vẫn giữ lại ValueError cho các lỗi hệ thống nghiêm trọng
+            return False, str(e)
+
+    def _validate_rules(self, ast):
+        errors = []
+        if isinstance(ast, (exp.Delete, exp.Update)):
+            errors.append("Rule Violation: Các thao tác DELETE và UPDATE không được phép.")
+        
+        if isinstance(ast, exp.Select):
+            if ast.find(exp.Star):
+                errors.append("Rule Violation: Không được phép sử dụng 'SELECT *'. Hãy chỉ định rõ các cột.")
+            
+            limit_node = ast.args.get("limit")
+            if not limit_node:
+                errors.append("Rule Violation: Truy vấn SELECT bắt buộc phải có LIMIT hoặc TOP.")
+            
+            limit_val = None
+            try:
+                limit_val = int(limit_node.expression.this)
+            except:
+                pass
+            
+            if limit_val is not None and limit_val >= 20:
+                errors.append(f"Rule Violation: LIMIT/TOP phải < 20. Đang yêu cầu: {limit_val}.")
+
+        for col in ast.find_all(exp.Column):
+            if col.name.lower() in self.restricted_columns:
+                errors.append(f"Rule Violation: Không có quyền truy cập cột bảo mật '{col.name}'.")
+                
+        return errors # Trả về danh sách lỗi thay vì raise
+
+    def _validate_columns(self, ast):
+        errors = []
+        if not self.schema_dict:
+            raise ValueError("Schema Validation: Hệ thống chưa nạp được Database Schema. Vui lòng kiểm tra lại cấu trúc bảng.")
+
+        tables_in_query = set()
+        for table_node in ast.find_all(exp.Table):
+            tables_in_query.add(table_node.name.lower())
+
+        valid_columns = set()
+        for t in tables_in_query:
+            if t in self.schema_dict:
+                valid_columns |= self.schema_dict[t]
+            else:
+                errors.append(f"Table Validation: Bảng '{t}' không tồn tại trong Schema.")
+
+        for col in ast.find_all(exp.Column):
+            col_name = col.name.lower()
+            if col_name and col_name not in valid_columns:
+                errors.append(f"Column Validation: Cột '{col.name}' không tồn tại. Các cột hợp lệ: {', '.join(sorted(valid_columns))}")
+                
+        return errors # Trả về danh sách lỗi
+
+    def _validate_joins(self, ast):
+        errors = []
+        for join in ast.find_all(exp.Join):
+            if not join.args.get("on") and not join.args.get("using"):
+                errors.append("Join Validation: Bắt buộc phải có mệnh đề 'ON' hoặc 'USING' khi JOIN.")
+        return errors # Trả về danh sách lỗi
+'''
