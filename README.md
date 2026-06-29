@@ -1,19 +1,19 @@
-# 🛡️ SQL Validator & Optimizer
+#  SQL Validator & Optimizer
 
 Một hệ thống kiểm tra, tối ưu hóa và tự động sửa lỗi truy vấn SQL mạnh mẽ dựa trên **Cây cú pháp trừu tượng (AST)** và **Mô hình Ngôn ngữ Lớn (LLM)**. Dự án hỗ trợ đa hệ quản trị cơ sở dữ liệu và tích hợp các quy tắc bảo mật nghiêm ngặt.
 
 ## ✨ Tính năng nổi bật
 
-- **🌍 Đa hệ quản trị CSDL (Multi-Dialect):** Hỗ trợ nhận diện và chuyển đổi cú pháp cho **MySQL**, **PostgreSQL**, và **SQL Server (T-SQL)** (Tự động chuyển `LIMIT` thành `TOP` đối với SQL Server).
-- **🌳 Phân tích AST (Abstract Syntax Tree):** Sử dụng `sqlglot` để bóc tách và phân tích cấu trúc câu lệnh SQL ở mức độ sâu, đảm bảo độ chính xác tuyệt đối.
-- **🔒 Bảo mật dữ liệu nhạy cảm:** Hỗ trợ thẻ ghi chú `-- sensitive` trong Database Schema để khóa vĩnh viễn quyền truy cập vào các cột nhạy cảm (VD: mật khẩu, ngày tháng quan trọng).
-- **🛑 Lớp phòng thủ đa tầng:**
+- ** Đa hệ quản trị CSDL (Multi-Dialect):** Hỗ trợ nhận diện và chuyển đổi cú pháp cho **MySQL**, **PostgreSQL**, và **SQL Server (T-SQL)** (Tự động chuyển `LIMIT` thành `TOP` đối với SQL Server).
+- ** Phân tích AST (Abstract Syntax Tree):** Sử dụng `sqlglot` để bóc tách và phân tích cấu trúc câu lệnh SQL ở mức độ sâu, đảm bảo độ chính xác tuyệt đối.
+- ** Bảo mật dữ liệu nhạy cảm:** Hỗ trợ thẻ ghi chú `-- sensitive` trong Database Schema để khóa vĩnh viễn quyền truy cập vào các cột nhạy cảm (VD: mật khẩu, ngày tháng quan trọng).
+- ** Lớp phòng thủ đa tầng:**
   - Ngăn chặn hoàn toàn các lệnh thay đổi dữ liệu nguy hiểm (`DELETE`, `UPDATE`, `DROP`, `TRUNCATE`, `ALTER`).
   - Cấm sử dụng `SELECT *` (Bắt buộc chỉ định rõ tên cột).
   - Bắt buộc phải có mệnh đề `LIMIT` (hoặc `TOP`) và giá trị phải `< 20` để chống quá tải server.
   - Bắt buộc mệnh đề `JOIN` phải đi kèm `ON` hoặc `USING`.
-- **🤖 AI Auto-Fix:** LLM Agent tự động đọc lỗi từ Validator, kết hợp với Schema để tự động tối ưu và viết lại câu truy vấn chuẩn xác nhất.
-- **🎨 Giao diện người dùng hiện đại:** Web UI được xây dựng bằng Tailwind CSS tinh gọn, mượt mà và trực quan.
+- ** AI Auto-Fix:** LLM Agent tự động đọc lỗi từ Validator, kết hợp với Schema để tự động tối ưu và viết lại câu truy vấn chuẩn xác nhất.
+- ** Giao diện người dùng hiện đại:** Web UI được xây dựng bằng Tailwind CSS tinh gọn, mượt mà và trực quan.
 
 ## 📁 Cấu trúc thư mục
 
@@ -38,7 +38,7 @@ SQLVALIDATOR/
 ├── requirements.txt        # Danh sách thư viện Python cần thiết
 └── README.md               # Tài liệu hướng dẫn dự án
 
-🚀 Hướng dẫn cài đặt
+Hướng dẫn cài đặt
 1. Yêu cầu hệ thống
 Python 3.10 trở lên
 
@@ -70,7 +70,8 @@ Tạo một file .env ở thư mục gốc và thêm API Key cho LLM của bạn
 Đoạn mã
 # Mẫu file .env
 LLM_API_KEY=your_api_key_here
-💻 Cách chạy dự án
+
+Cách chạy dự án
 Bước 1: Khởi động Backend Server
 Mở Terminal, đảm bảo đã kích hoạt .venv và gõ lệnh:
 
